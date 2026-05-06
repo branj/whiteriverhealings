@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>White River Healings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet"/>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { overflow-x: hidden; }
+    .hidden { display: none !important; }
+    @media (max-width: 768px) {
+      .desktop-links { display: none !important; }
+      .hamburger { display: block !important; }
+      .about-grid { grid-template-columns: 1fr !important; }
+    }
+    ::selection { background: rgba(193,127,74,0.25); }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(193,127,74,0.4); border-radius: 3px; }
+    @keyframes scrollCue {
+      0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+      40%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      80%  { transform: scaleY(1); transform-origin: bottom; opacity: 1; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="components/nav.jsx"></script>
+<script type="text/babel" src="components/hero.jsx"></script>
+<script type="text/babel" src="components/sections.jsx"></script>
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "amber",
+  "season": "summer",
+  "accentColor": "#c17f4a",
+  "showTestimonials": true,
+  "showBlog": true
+}/*EDITMODE-END*/;
+
+// ── Base theme (fonts + photo placeholders, seasons handle colors) ────────
+const themes = {
+  amber: {
+    label: 'Parchment & Amber',
+    displayFont: '"Cormorant Garamond", Georgia, serif',
+    bodyFont: '"EB Garamond", Georgia, serif',
+    photoPlaceholderBg: '#e8d5b8',
+    photoGradient: 'rgba(61,37,16,0.6)',
+    photoText: '#f5ede0',
+    heroText: '#5c3d28',
+    navText: '#3d2510',
+    // fallbacks overridden by season
+    heroBg: '#f5ede0',
+    heroGlow: 'rgba(193,127,74,0.18)',
+    heroHeading: '#3d2510',
+    heroBorder: 'rgba(139,97,70,0.35)',
+    navScrollBg: 'rgba(245,237,224,0.95)',
+    navBorder: 'rgba(193,127,74,0.2)',
+    accent: '#c17f4a',
+    accentShadow: 'rgba(193,127,74,0.35)',
+    sectionBg: '#faf6ef',
+    sectionAltBg: '#f0e8d8',
+    cardBg: '#faf6ef',
+    cardBorder: 'rgba(193,127,74,0.2)',
+    headingColor: '#3d2510',
+    bodyText: '#5c4030',
+    shadowColor: 'rgba(61,37,16,0.08)',
+    tagBg: 'rgba(193,127,74,0.12)',
+    testimonialBg: '#f5ede0',
+    botanicalStroke: '#7a5c3a',
+    footerBg: '#3d2510',
+  },
+  // keep a minimal placeholder so old refs don't crash
+  forest: {
+    label: 'Forest & Cream',
+    displayFont: '"Cormorant Garamond", Georgia, serif',
+    bodyFont: '"EB Garamond", Georgia, serif',
+    photoPlaceholderBg: '#2e3d2c',
+    photoGradient: 'rgba(26,35,24,0.7)',
+    photoText: '#e8e0d0',
+    heroText: '#c4b89a',
+    navText: '#e8e0d0',
+    heroBg: '#1a2318',
+    heroGlow: 'rgba(167,196,134,0.12)',
+    heroHeading: '#e8e0d0',
+    heroBorder: 'rgba(167,196,134,0.3)',
+    navScrollBg: 'rgba(26,35,24,0.96)',
+    navBorder: 'rgba(167,196,134,0.15)',
+    accent: '#8fb86a',
+    accentShadow: 'rgba(143,184,106,0.35)',
+    sectionBg: '#f5f0e8',
+    sectionAltBg: '#1a2318',
+    cardBg: '#f5f0e8',
+    cardBorder: 'rgba(143,184,106,0.25)',
+    headingColor: '#2a3528',
+    bodyText: '#4a5244',
+    shadowColor: 'rgba(26,35,24,0.1)',
+    tagBg: 'rgba(143,184,106,0.12)',
+    testimonialBg: '#1a2318',
+    botanicalStroke: '#8fb86a',
+    footerBg: '#111a10',
+  },
+  rose: {
+    label: 'Rose & Antique Gold',
+    displayFont: '"Cormorant Garamond", Georgia, serif',
+    bodyFont: '"EB Garamond", Georgia, serif',
+    photoPlaceholderBg: '#e8d0d2',
+    photoGradient: 'rgba(58,31,36,0.6)',
+    photoText: '#fdf0f0',
+    heroText: '#604048',
+    navText: '#3a1f24',
+    heroBg: '#fdf0f0',
+    heroGlow: 'rgba(185,130,140,0.2)',
+    heroHeading: '#3a1f24',
+    heroBorder: 'rgba(185,130,140,0.3)',
+    navScrollBg: 'rgba(253,240,240,0.96)',
+    navBorder: 'rgba(185,130,140,0.2)',
+    accent: '#b9828c',
+    accentShadow: 'rgba(185,130,140,0.38)',
+    sectionBg: '#fdf8f5',
+    sectionAltBg: '#f5e8e8',
+    cardBg: '#fdf8f5',
+    cardBorder: 'rgba(185,130,140,0.2)',
+    headingColor: '#3a1f24',
+    bodyText: '#604048',
+    shadowColor: 'rgba(58,31,36,0.07)',
+    tagBg: 'rgba(185,130,140,0.12)',
+    testimonialBg: '#fdf0f0',
+    photoPlaceholderBg: '#e8d0d2',
+    photoGradient: 'rgba(58,31,36,0.6)',
+    photoText: '#fdf0f0',
+    botanicalStroke: '#a06070',
+    footerBg: '#3a1f24',
+  },
+};
+
+// ── Main App ───────────────────────────────────────────────────────────────
+const App = () => {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [bookingService, setBookingService] = React.useState(null);
+
+  const baseTheme = themes[t.theme] || themes.amber;
+  const theme = {
+    ...baseTheme,
+    accent: t.accentColor || baseTheme.accent,
+    accentShadow: t.accentColor ? t.accentColor + '55' : baseTheme.accentShadow,
+  };
+
+  const season = t.season || 'summer';
+  const seasonData = SEASONS[season] || SEASONS.summer;
+  const isDarkSeason = season === 'autumn' || season === 'winter';
+
+  // Full merged theme — season drives colors, base theme drives fonts + photos
+  const mergedTheme = {
+    ...theme,
+    // fonts stay from base
+    displayFont: theme.displayFont,
+    bodyFont: theme.bodyFont,
+    // season drives all colors
+    accent: seasonData.accent,
+    accentShadow: seasonData.accentShadow,
+    headingColor: seasonData.headingColor,
+    bodyText: seasonData.bodyText,
+    sectionBg: seasonData.bodyBg,
+    sectionAltBg: seasonData.altBg,
+    cardBg: seasonData.bodyBg,
+    cardBorder: seasonData.cardBorder,
+    tagBg: seasonData.tagBg,
+    shadowColor: seasonData.shadowColor,
+    footerBg: seasonData.footerBg,
+    botanicalStroke: seasonData.botanicalColor,
+    testimonialBg: seasonData.altBg,
+    navText: isDarkSeason ? '#e8e0d0' : seasonData.headingColor,
+    navScrollBg: seasonData.navScrollBg,
+    navBorder: seasonData.navBorder,
+    // photo placeholders adapt to season darkness
+    photoPlaceholderBg: isDarkSeason ? '#2a1e12' : theme.photoPlaceholderBg,
+    photoGradient: isDarkSeason ? 'rgba(10,5,0,0.7)' : theme.photoGradient,
+    photoText: isDarkSeason ? '#e8d8c0' : theme.photoText,
+    heroText: seasonData.bodyText,
+  };
+
+  const openBooking = (svc) => {
+    setBookingService(svc);
+    window.open('https://white-river-healings.square.site/', '_blank');
+  };
+  const closeBooking = () => {
+    document.getElementById('booking-modal')?.classList.add('hidden');
+    setBookingService(null);
+  };
+
+  return (
+    <div style={{ background: mergedTheme.sectionBg, minHeight: '100vh' }}>
+      <Nav theme={mergedTheme} />
+      <Hero theme={mergedTheme} season={season} />
+      <About theme={mergedTheme} />
+      <Services theme={mergedTheme} />
+      {t.showTestimonials && <Testimonials theme={mergedTheme} />}
+      <Contact theme={mergedTheme} />
+      <Footer theme={mergedTheme} />
+
+      <TweaksPanel>
+        <TweakSection label="Season" />
+        <TweakRadio
+          label="Season"
+          options={[
+            { value: 'spring', label: 'Spring' },
+            { value: 'summer', label: 'Summer' },
+            { value: 'autumn', label: 'Autumn' },
+            { value: 'winter', label: 'Winter' },
+          ]}
+          value={t.season}
+          onChange={v => setTweak('season', v)}
+        />
+        <TweakSection label="Sections" />
+        <TweakToggle
+          label="Show Testimonials"
+          value={t.showTestimonials}
+          onChange={v => setTweak('showTestimonials', v)}
+        />
+      </TweaksPanel>
+    </div>
+  );
+};
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>
