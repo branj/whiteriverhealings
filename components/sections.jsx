@@ -113,7 +113,7 @@ const Services = ({ theme }) => {
           <h2 style={{fontFamily:theme.displayFont,fontSize:'clamp(2rem,4vw,3rem)',fontWeight:400,fontStyle:'italic',color:theme.headingColor}}>Sessions &amp; Services</h2>
           <div style={{width:50,height:1.5,background:theme.accent,margin:'1.2rem auto 0'}}/>
           <p style={{fontFamily:theme.bodyFont,color:theme.bodyText,fontSize:'0.95rem',lineHeight:1.8,maxWidth:520,margin:'1.5rem auto 0'}}>
-            All sessions are offered virtually — Wednesday through Saturday.
+            All sessions are offered virtually.
           </p>
         </div>
 
