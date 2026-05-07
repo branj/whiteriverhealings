@@ -25,9 +25,10 @@ const About = ({ theme }) => {
         <div style={{
           opacity: vis ? 1 : 0, transform: vis ? 'translateX(0)' : 'translateX(-30px)',
           transition:'opacity 0.9s ease, transform 0.9s ease',
+          display:'flex', justifyContent:'center',
         }}>
           <div style={{
-            position:'relative', aspectRatio:'3/4', maxWidth:420,
+            position:'relative', aspectRatio:'3/4', maxWidth: isMobile ? 280 : 420,
             borderRadius:'2px',
             overflow:'hidden', boxShadow:`0 20px 60px ${theme.shadowColor}`,
           }}>
@@ -41,6 +42,7 @@ const About = ({ theme }) => {
         <div style={{
           opacity: vis ? 1 : 0, transform: vis ? 'translateX(0)' : 'translateX(30px)',
           transition:'opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s',
+          textAlign: isMobile ? 'center' : 'left',
         }}>
           <p style={{fontFamily:theme.bodyFont,fontSize:'0.75rem',letterSpacing:'0.25em',textTransform:'uppercase',color:theme.accent,marginBottom:'1rem'}}>
             About Brooke
@@ -48,7 +50,7 @@ const About = ({ theme }) => {
           <h2 style={{fontFamily:theme.displayFont,fontSize:'clamp(2rem,4vw,3rem)',fontWeight:400,fontStyle:'italic',color:theme.headingColor,lineHeight:1.2,marginBottom:'1.5rem'}}>
             Reiki Master,<br/>Intuitive Guide &amp;<br/>Holistic Herbalist
           </h2>
-          <div style={{width:50,height:1.5,background:theme.accent,marginBottom:'1.8rem'}}/>
+          <div style={{width:50,height:1.5,background:theme.accent,marginBottom:'1.8rem', margin: isMobile ? '0 auto 1.8rem' : '0 0 1.8rem'}}/>
           <p style={{fontFamily:theme.bodyFont,fontSize:'1rem',lineHeight:1.9,color:theme.bodyText,marginBottom:'1.2rem'}}>
             Brooke Jennings brings warmth, wisdom, and deep intuitive knowledge to every session. 
             Drawing from years of practice in Reiki, herbalism, and holistic health coaching, 
@@ -59,7 +61,7 @@ const About = ({ theme }) => {
             seeking, Brooke meets you exactly where you are — with compassion, clarity, and 
             the tools to help you reclaim your innate vitality.
           </p>
-          <div style={{display:'flex',gap:'2.5rem',flexWrap:'wrap'}}>
+          <div style={{display:'flex',gap:'2.5rem',flexWrap:'wrap', justifyContent: isMobile ? 'center' : 'flex-start'}}>
             {[['Reiki Master','Certified Practitioner'],['Herbalist','Plant Medicine'],['Health Coach','Holistic Wellness']].map(([t,s]) => (
               <div key={t}>
                 <div style={{fontFamily:theme.displayFont,fontSize:'1.05rem',fontStyle:'italic',color:theme.headingColor,marginBottom:'0.2rem'}}>{t}</div>
@@ -120,7 +122,7 @@ const Services = ({ theme }) => {
           </p>
         </div>
 
-        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))',gap:'2rem'}}>
+        <div style={{display:'grid',gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit,minmax(300px,1fr))',gap:'2rem'}}>
           {serviceData.map((svc, i) => (
             <div key={i} style={{
               background:theme.cardBg,border:`1px solid ${theme.cardBorder}`,
@@ -391,10 +393,10 @@ const Contact = ({ theme }) => {
 
         <div style={{display:'grid',gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',gap: isMobile ? '2.5rem' : '4rem',alignItems:'start'}}>
           {/* Contact info */}
-          <div>
+          <div style={{textAlign: isMobile ? 'center' : 'left'}}>
             <div style={{marginBottom:'2.5rem'}}>
               <p style={{fontFamily:theme.bodyFont,fontSize:'0.72rem',letterSpacing:'0.2em',textTransform:'uppercase',color:theme.accent,marginBottom:'1.2rem'}}>Get in Touch</p>
-              <div style={{display:'flex',flexDirection:'column',gap:'1rem'}}>
+              <div style={{display:'flex',flexDirection:'column',gap:'1rem', alignItems: isMobile ? 'center' : 'flex-start'}}>
                 {contactInfo.map(c => (
                   <a key={c.label} href={c.href} target={c.href.startsWith('http')?'_blank':'_self'}
                     style={{display:'flex',alignItems:'baseline',gap:'1rem',textDecoration:'none',
@@ -462,11 +464,11 @@ const Contact = ({ theme }) => {
                   onFocus={e=>e.target.style.borderColor=theme.accent}
                   onBlur={e=>e.target.style.borderColor=theme.cardBorder}
                 />
-                <button type="submit" style={{
+                  <button type="submit" style={{
                   background:theme.accent,color:'#fff',border:'none',
                   padding:'0.9rem 2rem',borderRadius:'3rem',cursor:'pointer',
                   fontFamily:theme.bodyFont,fontSize:'0.82rem',letterSpacing:'0.12em',
-                  textTransform:'uppercase',fontWeight:500,alignSelf:'flex-start',
+                  textTransform:'uppercase',fontWeight:500,alignSelf: isMobile ? 'center' : 'flex-start',
                   boxShadow:`0 4px 20px ${theme.accentShadow}`,
                 }}>Send Message</button>
               </form>
