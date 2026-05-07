@@ -3,6 +3,7 @@
 const About = ({ theme }) => {
   const [vis, setVis] = React.useState(false);
   const ref = React.useRef();
+  const isMobile = useIsMobile();
   React.useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVis(true); }, { threshold: 0.2 });
     if (ref.current) obs.observe(ref.current);
@@ -11,13 +12,14 @@ const About = ({ theme }) => {
 
   return (
     <section id="about" ref={ref} style={{
-      padding:'7rem 2rem', background: theme.sectionAltBg,
+      padding: isMobile ? '4rem 1.25rem' : '7rem 2rem', background: theme.sectionAltBg,
       position:'relative', overflow:'hidden',
     }}>
       <SectionBotanical theme={theme} side="right" speed={0.12} opacity={0.10} offsetTop={-40}/>
       <div style={{
         maxWidth:1100, margin:'0 auto', display:'grid',
-        gridTemplateColumns:'1fr 1fr', gap:'5rem', alignItems:'center',
+        gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+        gap: isMobile ? '2.5rem' : '5rem', alignItems:'center',
       }}>
         {/* Photo placeholder */}
         <div style={{
@@ -57,7 +59,7 @@ const About = ({ theme }) => {
             seeking, Brooke meets you exactly where you are — with compassion, clarity, and 
             the tools to help you reclaim your innate vitality.
           </p>
-          <div style={{display:'flex',gap:'2.5rem'}}>
+          <div style={{display:'flex',gap:'2.5rem',flexWrap:'wrap'}}>
             {[['Reiki Master','Certified Practitioner'],['Herbalist','Plant Medicine'],['Health Coach','Holistic Wellness']].map(([t,s]) => (
               <div key={t}>
                 <div style={{fontFamily:theme.displayFont,fontSize:'1.05rem',fontStyle:'italic',color:theme.headingColor,marginBottom:'0.2rem'}}>{t}</div>
@@ -96,6 +98,7 @@ const serviceData = [
 const Services = ({ theme }) => {
   const [vis, setVis] = React.useState(false);
   const ref = React.useRef();
+  const isMobile = useIsMobile();
   React.useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVis(true); }, { threshold: 0.1 });
     if (ref.current) obs.observe(ref.current);
@@ -103,7 +106,7 @@ const Services = ({ theme }) => {
   }, []);
 
   return (
-    <section id="services" ref={ref} style={{padding:'7rem 2rem',background:theme.sectionBg}}>
+    <section id="services" ref={ref} style={{padding: isMobile ? '4rem 1.25rem' : '7rem 2rem',background:theme.sectionBg}}>
       <div style={{maxWidth:1100,margin:'0 auto'}}>
         <div style={{textAlign:'center',marginBottom:'4rem',
           opacity:vis?1:0,transform:vis?'translateY(0)':'translateY(20px)',
@@ -172,6 +175,7 @@ const herbItems = [
 const HerbShop = ({ theme }) => {
   const [vis, setVis] = React.useState(false);
   const ref = React.useRef();
+  const isMobile = useIsMobile();
   React.useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVis(true); }, { threshold: 0.1 });
     if (ref.current) obs.observe(ref.current);
@@ -179,7 +183,7 @@ const HerbShop = ({ theme }) => {
   }, []);
 
   return (
-    <section id="herbsteas" ref={ref} style={{padding:'7rem 2rem',background:theme.sectionAltBg,position:'relative',overflow:'hidden'}}>
+    <section id="herbsteas" ref={ref} style={{padding: isMobile ? '4rem 1.25rem' : '7rem 2rem',background:theme.sectionAltBg,position:'relative',overflow:'hidden'}}>
       <SectionBotanical theme={theme} side="left" speed={0.10} opacity={0.09} offsetTop={60}/>
       <div style={{maxWidth:1100,margin:'0 auto'}}>
         <div style={{textAlign:'center',marginBottom:'4rem',
@@ -257,6 +261,7 @@ const Testimonials = ({ theme }) => {
   const [vis, setVis] = React.useState(false);
   const [active, setActive] = React.useState(0);
   const ref = React.useRef();
+  const isMobile = useIsMobile();
   React.useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVis(true); }, { threshold: 0.2 });
     if (ref.current) obs.observe(ref.current);
@@ -265,7 +270,7 @@ const Testimonials = ({ theme }) => {
 
   return (
     <section id="testimonials" ref={ref} style={{
-      padding:'7rem 2rem',background:theme.testimonialBg,
+      padding: isMobile ? '4rem 1.25rem' : '7rem 2rem',background:theme.testimonialBg,
       position:'relative',overflow:'hidden',textAlign:'center',
     }}>
       <SectionBotanical theme={theme} side="right" speed={0.08} opacity={0.08} offsetTop={20}/>
@@ -318,6 +323,7 @@ const blogPosts = [
 const Blog = ({ theme }) => {
   const [vis, setVis] = React.useState(false);
   const ref = React.useRef();
+  const isMobile = useIsMobile();
   React.useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVis(true); }, { threshold: 0.1 });
     if (ref.current) obs.observe(ref.current);
@@ -325,7 +331,7 @@ const Blog = ({ theme }) => {
   }, []);
 
   return (
-    <section id="journal" ref={ref} style={{padding:'7rem 2rem',background:theme.sectionBg}}>
+    <section id="journal" ref={ref} style={{padding: isMobile ? '4rem 1.25rem' : '7rem 2rem',background:theme.sectionBg}}>
       <div style={{maxWidth:1100,margin:'0 auto'}}>
         <div style={{textAlign:'center',marginBottom:'4rem',opacity:vis?1:0,transform:vis?'translateY(0)':'translateY(20px)',transition:'opacity 0.8s,transform 0.8s'}}>
           <p style={{fontFamily:theme.bodyFont,fontSize:'0.75rem',letterSpacing:'0.25em',textTransform:'uppercase',color:theme.accent,marginBottom:'0.8rem'}}>The Journal</p>
@@ -362,6 +368,7 @@ const Blog = ({ theme }) => {
 const Contact = ({ theme }) => {
   const [form, setForm] = React.useState({name:'',email:'',message:''});
   const [sent, setSent] = React.useState(false);
+  const isMobile = useIsMobile();
 
   const contactInfo = [
     { label:'Email', value:'whiteriverhealings@gmail.com', href:'mailto:whiteriverhealings@gmail.com' },
@@ -371,7 +378,7 @@ const Contact = ({ theme }) => {
   ];
 
   return (
-    <section id="contact" style={{padding:'7rem 2rem',background:theme.sectionAltBg}}>
+    <section id="contact" style={{padding: isMobile ? '4rem 1.25rem' : '7rem 2rem',background:theme.sectionAltBg}}>
       <div style={{maxWidth:900,margin:'0 auto'}}>
         <div style={{textAlign:'center',marginBottom:'4rem'}}>
           <p style={{fontFamily:theme.bodyFont,fontSize:'0.75rem',letterSpacing:'0.25em',textTransform:'uppercase',color:theme.accent,marginBottom:'0.8rem'}}>Reach Out</p>
@@ -382,7 +389,7 @@ const Contact = ({ theme }) => {
           </p>
         </div>
 
-        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'4rem',alignItems:'start'}}>
+        <div style={{display:'grid',gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',gap: isMobile ? '2.5rem' : '4rem',alignItems:'start'}}>
           {/* Contact info */}
           <div>
             <div style={{marginBottom:'2.5rem'}}>

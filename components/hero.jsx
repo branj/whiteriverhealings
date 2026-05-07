@@ -444,6 +444,7 @@ const SeasonalParticles = ({ season }) => {
 const Hero = ({ theme, season }) => {
   const [visible] = React.useState(true);
   const scrollY = useParallax();
+  const isMobile = useIsMobile();
   const s = SEASONS[season] || SEASONS.summer;
 
   const layerFar  = scrollY * 0.18;
@@ -482,7 +483,7 @@ const Hero = ({ theme, season }) => {
       {/* Content */}
       <div style={{
         position:'relative', zIndex:10, textAlign:'center',
-        padding:'8rem 2rem 6rem', maxWidth:780,
+        padding: isMobile ? '7rem 1.25rem 4rem' : '8rem 2rem 6rem', maxWidth:780,
         transform:`translateY(${scrollY * 0.08}px)`,
         opacity: 1,
         willChange:'transform',
@@ -586,5 +587,5 @@ const SectionBotanical = ({ theme, side='right', speed=0.15, opacity=0.12, offse
 Object.assign(window, {
   Hero, BotanicalSVG, SprigSVG, SunSVG, MoonSVG,
   RiverSVG, StarField, AuroraBand, SeasonalParticles,
-  SectionBotanical, useParallax, SEASONS,
+  SectionBotanical, useParallax, useIsMobile, SEASONS,
 });

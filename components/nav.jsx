@@ -3,6 +3,7 @@
 const Nav = ({ theme }) => {
   const [open, setOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
+  const isMobile = useIsMobile();
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -25,7 +26,7 @@ const Nav = ({ theme }) => {
           <span style={{...s.wordmarkLine1, fontFamily: theme.displayFont}}>White River</span>
           <span style={{...s.wordmarkLine2, color: theme.accent}}>Healings</span>
         </a>
-        <div style={s.links}>
+        <div style={{...s.links, display: isMobile ? 'none' : 'flex'}}>
           {links.map(l => (
             <a key={l} href={`#${l.toLowerCase().replace(/[^a-z]/g,'')}`}
               style={{...s.link, color: theme.navText, fontFamily: theme.bodyFont}}>
@@ -37,7 +38,7 @@ const Nav = ({ theme }) => {
             Book a Session
           </button>
         </div>
-        <button style={s.hamburger} onClick={() => setOpen(!open)} aria-label="menu">
+        <button style={{...s.hamburger, display: isMobile ? 'block' : 'none'}} onClick={() => setOpen(!open)} aria-label="menu">
           <span style={{color: theme.navText, fontSize: '1.5rem'}}>☰</span>
         </button>
       </div>
