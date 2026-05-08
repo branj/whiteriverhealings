@@ -48,6 +48,7 @@
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "theme": "amber",
   "season": "summer",
+  "useSeasonColors": true,
   "accentColor": "#c17f4a",
   "showTestimonials": true,
   "showBlog": true
@@ -164,14 +165,13 @@ const App = () => {
   const season = t.season || 'summer';
   const seasonData = SEASONS[season] || SEASONS.summer;
   const isDarkSeason = season === 'autumn' || season === 'winter';
+  const useSeasonColors = t.useSeasonColors !== false;
 
-  // Full merged theme — season drives colors, base theme drives fonts + photos
-  const mergedTheme = {
+  // Full merged theme — season drives colors when enabled, otherwise base theme does
+  const mergedTheme = useSeasonColors ? {
     ...theme,
-    // fonts stay from base
     displayFont: theme.displayFont,
     bodyFont: theme.bodyFont,
-    // season drives all colors
     accent: seasonData.accent,
     accentShadow: seasonData.accentShadow,
     headingColor: seasonData.headingColor,
@@ -188,11 +188,13 @@ const App = () => {
     navText: isDarkSeason ? '#e8e0d0' : seasonData.headingColor,
     navScrollBg: seasonData.navScrollBg,
     navBorder: seasonData.navBorder,
-    // photo placeholders adapt to season darkness
     photoPlaceholderBg: isDarkSeason ? '#2a1e12' : theme.photoPlaceholderBg,
     photoGradient: isDarkSeason ? 'rgba(10,5,0,0.7)' : theme.photoGradient,
     photoText: isDarkSeason ? '#e8d8c0' : theme.photoText,
     heroText: seasonData.bodyText,
+  } : {
+    ...theme,
+    heroText: theme.heroText || theme.bodyText,
   };
 
   const openBooking = (svc) => {
@@ -207,7 +209,7 @@ const App = () => {
   return (
     <div style={{ background: mergedTheme.sectionBg, minHeight: '100vh' }}>
       <Nav theme={mergedTheme} />
-      <Hero theme={mergedTheme} season={season} />
+      <Hero theme={mergedTheme} season={useSeasonColors ? season : null} />
       <About theme={mergedTheme} />
       <Services theme={mergedTheme} />
       {t.showTestimonials && <Testimonials theme={mergedTheme} />}
@@ -215,18 +217,38 @@ const App = () => {
       <Footer theme={mergedTheme} />
 
       <TweaksPanel>
-        <TweakSection label="Season" />
+        <TweakSection label="Color Theme" />
         <TweakRadio
-          label="Season"
+          label="Base Theme"
           options={[
-            { value: 'spring', label: 'Spring' },
-            { value: 'summer', label: 'Summer' },
-            { value: 'autumn', label: 'Autumn' },
-            { value: 'winter', label: 'Winter' },
+            { value: 'amber', label: 'Amber' },
+            { value: 'forest', label: 'Forest' },
+            { value: 'rose', label: 'Rose' },
           ]}
-          value={t.season}
-          onChange={v => setTweak('season', v)}
+          value={t.theme}
+          onChange={v => setTweak('theme', v)}
         />
+        <TweakToggle
+          label="Use Season Colors"
+          value={t.useSeasonColors}
+          onChange={v => setTweak('useSeasonColors', v)}
+        />
+        {t.useSeasonColors && (
+          <>
+            <TweakSection label="Season" />
+            <TweakRadio
+              label="Season"
+              options={[
+                { value: 'spring', label: 'Spring' },
+                { value: 'summer', label: 'Summer' },
+                { value: 'autumn', label: 'Autumn' },
+                { value: 'winter', label: 'Winter' },
+              ]}
+              value={t.season}
+              onChange={v => setTweak('season', v)}
+            />
+          </>
+        )}
         <TweakSection label="Sections" />
         <TweakToggle
           label="Show Testimonials"
