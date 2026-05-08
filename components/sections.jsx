@@ -90,9 +90,9 @@ const serviceData = [
     tag:'Deep Dive',
   },
   {
-    title:'Holistic Health & Herbalism Consultation',
-    duration:'2 Sessions · $250',
-    desc:'Intake form, Health History & Lifestyle Discussion, Specialized Protocol & Goal Plan, Reiki Healing, and a Two-Week Follow-Up Session.',
+    title:'Group Reiki / Tea Ceremony',
+    duration:'2 hours · $250',
+    desc:'Guided meditation, Reiki healing for all, tea ceremony with plant medicine',
     tag:'Transformative',
   },
 ];
@@ -396,7 +396,7 @@ const Contact = ({ theme }) => {
           <div style={{textAlign: isMobile ? 'center' : 'left'}}>
             <div style={{marginBottom:'2.5rem'}}>
               <p style={{fontFamily:theme.bodyFont,fontSize:'0.72rem',letterSpacing:'0.2em',textTransform:'uppercase',color:theme.accent,marginBottom:'1.2rem'}}>Get in Touch</p>
-              <div style={{display:'flex',flexDirection:'column',gap:'1rem', alignItems: isMobile ? 'center' : 'flex-start'}}>
+              <div style={{display:'flex',flexDirection:'column',gap:'1rem'}}>
                 {contactInfo.map(c => (
                   <a key={c.label} href={c.href} target={c.href.startsWith('http')?'_blank':'_self'}
                     style={{display:'flex',alignItems:'baseline',gap:'1rem',textDecoration:'none',
