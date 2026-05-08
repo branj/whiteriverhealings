@@ -164,7 +164,7 @@ const App = () => {
 
   const season = t.season || 'summer';
   const seasonData = SEASONS[season] || SEASONS.summer;
-  const isDarkSeason = season === 'autumn' || season === 'winter';
+  const isDarkSeason = season === 'autumn' || season === 'winter' || season === 'cosmic';
   const useSeasonColors = t.useSeasonColors !== false;
 
   // Full merged theme — season drives colors when enabled, otherwise base theme does
@@ -243,6 +243,9 @@ const App = () => {
                 { value: 'summer', label: 'Summer' },
                 { value: 'autumn', label: 'Autumn' },
                 { value: 'winter', label: 'Winter' },
+                { value: 'cosmic', label: 'Cosmic' },
+                { value: 'blush', label: 'Blush' },
+                { value: 'lavender', label: 'Lavender' },
               ]}
               value={t.season}
               onChange={v => setTweak('season', v)}

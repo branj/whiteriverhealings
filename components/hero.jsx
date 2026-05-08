@@ -337,12 +337,93 @@ const SEASONS = {
     heroGlow: 'rgba(112,144,200,0.2)',
     heroBorder: 'rgba(100,130,190,0.35)',
   },
+  cosmic: {
+    label: 'Cosmic',
+    heroBg: '#1a0e24',
+    bodyBg: '#faf6fc',
+    altBg: '#f0e8f5',
+    headingColor: '#f0e4f8',
+    bodyText: '#c8a8d8',
+    accent: '#b864c8',
+    accentShadow: 'rgba(184,100,200,0.4)',
+    botanicalColor: '#9860b0',
+    navScrollBg: 'rgba(26,14,36,0.97)',
+    navBorder: 'rgba(184,100,200,0.2)',
+    cardBg: '#faf6fc',
+    cardBorder: 'rgba(184,100,200,0.18)',
+    tagBg: 'rgba(184,100,200,0.1)',
+    shadowColor: 'rgba(26,14,36,0.12)',
+    footerBg: '#120820',
+    starColor: '#e0c0f0',
+    celestialBody: 'moon',
+    moonColor: '#d8b0f0',
+    moonGlow: '#a050c0',
+    auroraColors: ['#8040b0','#c070d8','#e090c0'],
+    riverColor: '#6848a0',
+    riverShimmer: '#c8a0e8',
+    heroGlow: 'rgba(160,80,192,0.22)',
+    heroBorder: 'rgba(140,80,180,0.35)',
+  },
+  blush: {
+    label: 'Blush',
+    heroBg: '#fdf5f3',
+    bodyBg: '#fdf8f6',
+    altBg: '#f8ede9',
+    headingColor: '#3d1f2a',
+    bodyText: '#6b4050',
+    accent: '#c76a82',
+    accentShadow: 'rgba(199,106,130,0.35)',
+    botanicalColor: '#a05868',
+    navScrollBg: 'rgba(253,245,243,0.96)',
+    navBorder: 'rgba(199,106,130,0.2)',
+    cardBg: '#fdf8f6',
+    cardBorder: 'rgba(199,106,130,0.18)',
+    tagBg: 'rgba(199,106,130,0.1)',
+    shadowColor: 'rgba(61,31,42,0.08)',
+    footerBg: '#2d1520',
+    starColor: '#f0c0c8',
+    celestialBody: 'sun',
+    sunColor: '#d07888',
+    sunGlow: '#f0a0b0',
+    auroraColors: ['#e08898','#c76a82','#f0b8c0'],
+    riverColor: '#a0b8c8',
+    riverShimmer: '#d0e4f0',
+    heroGlow: 'rgba(199,106,130,0.18)',
+    heroBorder: 'rgba(160,80,100,0.25)',
+  },
+  lavender: {
+    label: 'Lavender',
+    heroBg: '#f5f0fa',
+    bodyBg: '#faf8fc',
+    altBg: '#f0eaf5',
+    headingColor: '#2a1e3d',
+    bodyText: '#584068',
+    accent: '#8b6aad',
+    accentShadow: 'rgba(139,106,173,0.35)',
+    botanicalColor: '#7a5a98',
+    navScrollBg: 'rgba(245,240,250,0.96)',
+    navBorder: 'rgba(139,106,173,0.2)',
+    cardBg: '#faf8fc',
+    cardBorder: 'rgba(139,106,173,0.18)',
+    tagBg: 'rgba(139,106,173,0.1)',
+    shadowColor: 'rgba(42,30,61,0.08)',
+    footerBg: '#1e1430',
+    starColor: '#c8b0e0',
+    celestialBody: 'sun',
+    sunColor: '#9870b8',
+    sunGlow: '#c8a0e0',
+    auroraColors: ['#8060a8','#a880c8','#c8a0e0'],
+    riverColor: '#8098b8',
+    riverShimmer: '#b8d0e8',
+    heroGlow: 'rgba(139,106,173,0.18)',
+    heroBorder: 'rgba(120,80,150,0.25)',
+  },
 };
 
 
 // ── Seasonal Particles (pure DOM, no canvas) ────────────────────────────────
 const SeasonalParticles = ({ season }) => {
-  const count = { autumn: 28, winter: 40, spring: 35, summer: 22 }[season] || 25;
+  const count = { autumn: 28, winter: 40, spring: 35, summer: 22, cosmic: 35, blush: 25, lavender: 30 }[season] || 25;
 
   const particles = React.useMemo(() => {
     const rng = (i, o=0) => { const x = Math.sin(i*127.1+o*311.7)*43758.5453; return x - Math.floor(x); };
@@ -363,6 +444,9 @@ const SeasonalParticles = ({ season }) => {
     winter: (i) => `hsl(210,${35+Math.sin(i)*20}%,${88+Math.sin(i*3)*8}%)`,
     spring: (i) => `hsl(${345+Math.sin(i)*20},${60+Math.sin(i*2)*20}%,${76+Math.sin(i*3)*8}%)`,
     summer: (i) => `hsl(${42+Math.sin(i)*12},85%,${72+Math.sin(i*2)*10}%)`,
+    cosmic: (i) => `hsl(${280+Math.sin(i)*20},${55+Math.sin(i*2)*20}%,${72+Math.sin(i*3)*10}%)`,
+    blush: (i) => `hsl(${345+Math.sin(i)*15},${60+Math.sin(i*2)*15}%,${75+Math.sin(i*3)*8}%)`,
+    lavender: (i) => `hsl(${270+Math.sin(i)*15},${45+Math.sin(i*2)*20}%,${74+Math.sin(i*3)*8}%)`,
   };
   const getColor = colors[season] || colors.summer;
 
@@ -466,7 +550,7 @@ const Hero = ({ theme, season }) => {
   const riverShift = scrollY * 0.06;
 
   // Text color adapts to dark (autumn/winter) vs light hero bg
-  const isDark = season === 'autumn' || season === 'winter';
+  const isDark = season === 'autumn' || season === 'winter' || season === 'cosmic';
 
   return (
     <section id="hero" style={{
