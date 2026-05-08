@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Redirecting… | White River Healings</title>
+  <script>
+    // Map old WordPress paths to new single-page anchors
+    var redirects = {
+      '/index.php/contact': '/#contact',
+      '/index.php/contact/': '/#contact',
+      '/index.php/about': '/#about',
+      '/index.php/about/': '/#about',
+      '/index.php/services': '/#services',
+      '/index.php/services/': '/#services',
+      '/index.php/about-reiki': '/#services',
+      '/index.php/about-reiki/': '/#services',
+      '/index.php/herbal-shop': '/#herbsteas',
+      '/index.php/herbal-shop/': '/#herbsteas',
+    };
+
+    var path = window.location.pathname.toLowerCase();
+    var dest = redirects[path] || '/';
+    window.location.replace(dest);
+  </script>
+  <noscript>
+    <meta http-equiv="refresh" content="0;url=/" />
+  </noscript>
+</head>
+<body>
+  <p>Redirecting to <a href="/">White River Healings</a>…</p>
+</body>
+</html>
